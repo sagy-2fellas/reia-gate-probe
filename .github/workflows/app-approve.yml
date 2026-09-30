@@ -1,0 +1,20 @@
+name: app-approve
+on:
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: PR number to approve as an App installation
+        required: true
+permissions:
+  pull-requests: write
+  contents: read
+jobs:
+  approve:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Approve as github-actions[bot] (an App installation)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr review "${{ inputs.pr }}" --repo "$GITHUB_REPOSITORY" \
+            --approve --body "approval submitted by an App installation token"
